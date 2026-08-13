@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import rateLimit from 'express-rate-limit';
 import {
   getMeController,
   loginUserController,
@@ -9,19 +10,26 @@ import { authUser } from '../middlewares/auth.middleware.js';
 
 const authRouter = Router();
 
+// Apply the limiter to specific routes (e.g., login route)
+const authLimiter = rateLimit({
+  windowMs: 60 * 1000, // 1 minute
+  max: 5, // Limit each IP to 5 login attempts per minute
+  message: 'Too many login attempts, please try again after a minute.',
+});
+
 /**
  * @route   POST /api/v1/auth/register
  * @desc    Register user
  * @access  Public
  */
-authRouter.post('/register', registerUserController);
+authRouter.post('/register', authLimiter, registerUserController);
 
 /**
  * @route   POST /api/v1/auth/login
  * @desc    Login user
  * @access  Public
  */
-authRouter.post('/login', loginUserController);
+authRouter.post('/login', authLimiter, loginUserController);
 
 /**
  * @route   POST /api/v1/auth/logout

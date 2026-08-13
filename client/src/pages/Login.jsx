@@ -81,6 +81,7 @@ const Login = () => {
           type="password"
           autoComplete="current-password"
           error={validationErrors.password}
+          placeholder="******"
         />
 
         <Button type="submit" className="w-full" isLoading={isLoading}>

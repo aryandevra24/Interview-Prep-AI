@@ -9,7 +9,7 @@ export const authUser = asyncHandler(async (req, res, next) => {
   const authorization = req.headers?.authorization;
   const token = authorization?.startsWith('Bearer ')
     ? authorization.split(' ')[1]
-    : req.cookies?.token;
+    : req.signedCookies?.token;
 
   if (!token) {
     throw new ApiError(401, 'token not found');

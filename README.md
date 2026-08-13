@@ -46,6 +46,9 @@ A full-stack web application that helps candidates prepare for job interviews. U
 - `pdf-parse` for extracting text from uploaded resumes
 - `puppeteer` for rendering generated resumes to PDF
 - `zod` for schema validation
+- `express-rate-limit` for rate limiting
+- `cookie-parser` for cookie handling
+- `cors` for cross-origin resource sharing
 
 ---
 
@@ -141,8 +144,13 @@ npm install
 Create a `.env` file in `server/` with:
 
 ```
-NODE_ENV=development
 PORT=3000
+
+NODE_ENV=development
+
+CORS_ORIGIN=your-client-url
+
+COOKIE_SECRET=your-secret-key
 
 MONGO_URI=mongodb+srv://<user>:<password>@<cluster>.mongodb.net/interview-prep
 
@@ -150,8 +158,6 @@ JWT_SECRET=your-strong-random-secret
 JWT_EXPIRES_IN=1d
 
 GEMINI_API_KEY=your-gemini-api-key
-
-CORS_ORIGIN=your-client-url
 ```
 
 Run the server:

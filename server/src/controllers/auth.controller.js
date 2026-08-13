@@ -58,8 +58,10 @@ export const registerUserController = async (req, res, next) => {
     res.cookie('token', token, {
       httpOnly: true,
       secure: env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      signed: true,
+      sameSite: 'lax',
       maxAge: 24 * 60 * 60 * 1000, // 1 day
+      path: '/',
     });
 
     return sendSuccess(res, {
@@ -98,8 +100,10 @@ export const loginUserController = async (req, res, next) => {
     res.cookie('token', token, {
       httpOnly: true,
       secure: env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      signed: true,
+      sameSite: 'lax',
       maxAge: 24 * 60 * 60 * 1000, // 1 day
+      path: '/',
     });
 
     const { password: passwordHash, ...userDetails } = user._doc;
