@@ -42,7 +42,10 @@ const FileUploader = ({ file, onFileChange, error }) => {
 
   return (
     <div>
-      <label className="mb-1.5 block text-sm font-medium text-slate-700">
+      <label
+        htmlFor="resume-upload"
+        className="mb-1.5 block text-sm font-medium text-slate-700"
+      >
         Resume (PDF)
       </label>
 
