@@ -4,6 +4,12 @@ A full-stack web application that helps candidates prepare for job interviews. U
 
 ---
 
+## 🚀 Live Demo
+
+🔗 https://interview-prep-ai24.vercel.app/
+
+---
+
 ## ✨ Features
 
 - 🧠 **AI-generated interview reports** — resume text, self-description, and job description are analyzed to produce:
