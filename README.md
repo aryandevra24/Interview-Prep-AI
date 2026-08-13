@@ -80,6 +80,7 @@ Interview-Prep-AI/
 │   ├── public/                    # Static assets
 │   ├── index.html                 # HTML template
 │   ├── package.json               # Project config
+│   ├── vercel.json                # Vercel config
 │   └── vite.config.js             # Dev server proxies /api → http://localhost:3000
 │
 ├── server/ backend                # Express backend
