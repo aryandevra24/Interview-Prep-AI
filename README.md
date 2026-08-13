@@ -144,7 +144,7 @@ npm install
 Create a `.env` file in `server/` with:
 
 ```
-PORT=3000
+PORT=5000
 
 NODE_ENV=development
 

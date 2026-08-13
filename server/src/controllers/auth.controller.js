@@ -59,7 +59,7 @@ export const registerUserController = async (req, res, next) => {
       httpOnly: true,
       secure: env.NODE_ENV === 'production',
       signed: true,
-      sameSite: 'lax',
+      sameSite: env.NODE_ENV === 'production' ? 'none' : 'lax',
       maxAge: 24 * 60 * 60 * 1000, // 1 day
       path: '/',
     });
@@ -101,7 +101,7 @@ export const loginUserController = async (req, res, next) => {
       httpOnly: true,
       secure: env.NODE_ENV === 'production',
       signed: true,
-      sameSite: 'lax',
+      sameSite: env.NODE_ENV === 'production' ? 'none' : 'lax',
       maxAge: 24 * 60 * 60 * 1000, // 1 day
       path: '/',
     });
