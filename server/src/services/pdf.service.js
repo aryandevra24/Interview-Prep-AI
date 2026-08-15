@@ -7,7 +7,13 @@ export const generatePdfFromHtml = async htmlContent => {
   let browser;
   try {
     browser = await puppeteer.launch({
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      headless: true,
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage',
+        '--disable-gpu',
+      ],
     });
     const page = await browser.newPage();
 
@@ -17,6 +23,7 @@ export const generatePdfFromHtml = async htmlContent => {
 
     return await page.pdf({
       format: 'A4',
+      printBackground: true,
       margin: {
         top: '10mm',
         bottom: '10mm',

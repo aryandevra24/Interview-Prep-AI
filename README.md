@@ -18,10 +18,23 @@ A full-stack web application that helps candidates prepare for job interviews. U
   - 🗣️ Behavioral questions with interviewer intent and suggested answers
   - ⚠️ Skill gaps rated by severity (low / medium / high)
   - 📅 A structured, multi-day preparation plan
-- 📄 **Resume PDF generation** — generates a tailored resume PDF based on the report and job description
-- 🔐 **Authentication** — JWT-based register/login/logout with a "get current user" endpoint, backed by cookie-based sessions and a token blacklist for logout
-- 🕘 **Report history** — fetch all past interview reports or a single report by ID
-- 📤 **File uploads** — resume PDFs are parsed server-side to extract text before being sent to the AI
+
+- 📄 **Resume PDF generation**
+  - Generates a tailored resume PDF based on the interview report and job description
+  - Uses Puppeteer with Chromium rendering
+
+- 🔐 **Authentication**
+  - JWT-based register/login/logout
+  - Cookie-based sessions
+  - Token blacklist handling for logout
+
+- 🕘 **Report history**
+  - Fetch all previous interview reports
+  - Fetch individual reports by ID
+
+- 📤 **File uploads**
+  - Resume PDFs are uploaded and parsed server-side
+  - Extracted resume text is processed by Gemini AI
 
 ---
 
@@ -81,7 +94,7 @@ Interview-Prep-AI/
 │   ├── index.html                 # HTML template
 │   ├── package.json               # Project config
 │   ├── vercel.json                # Vercel config
-│   └── vite.config.js             # Dev server proxies /api → http://localhost:3000
+│   └── vite.config.js             # Dev server proxies /api → http://localhost:5000
 │
 ├── server/ backend                # Express backend
 │   ├── src/
@@ -190,7 +203,7 @@ Run the dev server:
 npm run dev
 ```
 
-In development, Vite proxies requests from `/api` to `http://localhost:3000` (see `vite.config.js`), so no `VITE_API_BASE_URL` is needed locally.
+In development, Vite proxies requests from `/api` to `http://localhost:5000` (see `vite.config.js`), so no `VITE_API_BASE_URL` is needed locally.
 
 ---
 
@@ -209,6 +222,7 @@ In development, Vite proxies requests from `/api` to `http://localhost:3000` (se
 - `npm run dev` — start with Node's `--watch` for auto-reload
 - `npm run build` — start the server (`node server.js`)
 - `npm run format` — format with Prettier
+- `npm run postinstall` — install Puppeteer browsers # you need to run this once when you deploy to production
 
 ---
 
