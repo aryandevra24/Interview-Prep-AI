@@ -7,6 +7,7 @@ import {
   getAllInterviewReports,
   getInterviewReportById,
 } from '../services/interview.service.js';
+import { generateSkillQuiz } from '../services/ai.service.js';
 import { ApiError } from '../utils/apiError.js';
 import { asyncHandler } from '../middlewares/asyncHandler.middleware.js';
 import { sendSuccess } from '../utils/apiResponse.js';
@@ -112,4 +113,40 @@ export const generateResumePdfController = asyncHandler(async (req, res) => {
   });
 
   res.send(pdfBuffer);
+});
+
+export const generateSkillQuizController = asyncHandler(async (req, res) => {
+  const { skill, level } = req.body || {};
+
+  if (!skill || typeof skill !== 'string') {
+    throw new ApiError(400, 'A valid skill is required.');
+  }
+
+  const normalizedSkill = skill.trim();
+
+  const normalizedLevel = String(level || 'beginner')
+    .trim()
+    .toLowerCase();
+
+  const allowedLevels = ['beginner', 'intermediate', 'advanced'];
+
+  if (!allowedLevels.includes(normalizedLevel)) {
+    throw new ApiError(
+      400,
+      'Level must be beginner, intermediate, or advanced.'
+    );
+  }
+
+  const questions = await generateSkillQuiz({
+    skill: normalizedSkill,
+    level: normalizedLevel,
+  });
+
+  return sendSuccess(res, {
+    statusCode: 200,
+    message: 'Skill quiz generated successfully.',
+    data: {
+      questions,
+    },
+  });
 });

@@ -4,6 +4,7 @@ import * as z from 'zod';
 import {
   buildInterviewReportPrompt,
   buildResumePdfPrompt,
+  buildSkillQuizPrompt,
 } from '../prompts/interview.prompts.js';
 import { ApiError } from '../utils/apiError.js';
 
@@ -160,6 +161,85 @@ export const generateInterviewReport = async ({
     return interviewReportSchema.parse(JSON.parse(interaction.output_text));
   } catch (error) {
     throw new ApiError(502, 'Unable to generate interview report.');
+  }
+};
+
+export const generateSkillQuiz = async ({ skill, level }) => {
+  const skillQuizJsonSchema = {
+    type: 'object',
+    properties: {
+      questions: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            question: {
+              type: 'string',
+            },
+            options: {
+              type: 'array',
+              items: {
+                type: 'string',
+              },
+              minItems: 4,
+              maxItems: 4,
+            },
+            correctIndex: {
+              type: 'integer',
+              minimum: 0,
+              maximum: 3,
+            },
+            topic: {
+              type: 'string',
+            },
+            explanation: {
+              type: 'string',
+            },
+          },
+          required: [
+            'question',
+            'options',
+            'correctIndex',
+            'topic',
+            'explanation',
+          ],
+        },
+        minItems: 20,
+        maxItems: 20,
+      },
+    },
+    required: ['questions'],
+  };
+
+  try {
+    const skillQuizSchema = z.fromJSONSchema(skillQuizJsonSchema);
+
+    const prompt = buildSkillQuizPrompt({
+      skill,
+      level,
+    });
+
+    const interaction = await client.interactions.create({
+      model: 'gemini-3.1-flash-lite',
+      input: prompt,
+      response_format: {
+        type: 'text',
+        mime_type: 'application/json',
+        schema: skillQuizJsonSchema,
+      },
+    });
+
+    const parsed = skillQuizSchema.parse(JSON.parse(interaction.output_text));
+
+    return parsed.questions;
+  } catch (error) {
+    console.error('[Skill Quiz Generation Error]', {
+      name: error?.name,
+      message: error?.message,
+      stack: error?.stack,
+    });
+
+    throw new ApiError(502, 'Unable to generate skill quiz questions.');
   }
 };
 

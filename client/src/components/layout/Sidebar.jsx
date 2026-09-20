@@ -1,9 +1,15 @@
 import { NavLink } from 'react-router';
-import { LayoutDashboard, PlusCircle, Sparkles } from 'lucide-react';
+import {
+  BrainCircuit,
+  LayoutDashboard,
+  PlusCircle,
+  Sparkles,
+} from 'lucide-react';
 
 const navItems = [
   { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { to: '/interview/new', label: 'New Interview', icon: PlusCircle },
+  { to: '/skill-quiz', label: 'Skill Quiz', icon: BrainCircuit },
   { to: '/reports', label: 'Reports', icon: Sparkles },
 ];
 

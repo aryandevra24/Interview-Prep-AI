@@ -3,6 +3,7 @@ import { authUser } from '../middlewares/auth.middleware.js';
 import {
   generateInterViewReportController,
   generateResumePdfController,
+  generateSkillQuizController,
   getAllInterviewReportsController,
   getInterviewReportByIdController,
 } from '../controllers/interview.controller.js';
@@ -28,6 +29,13 @@ interviewRouter.post(
  * @access  Private
  */
 interviewRouter.get('/report/all', authUser, getAllInterviewReportsController);
+
+/**
+ * @route   POST /api/v1/interview/skill-quiz
+ * @desc    Generate skill quiz for a given skill and level
+ * @access  Private
+ */
+interviewRouter.post('/skill-quiz', authUser, generateSkillQuizController);
 
 /**
  * @route   GET /api/v1/interview/report/:interviewReportId

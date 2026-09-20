@@ -10,6 +10,7 @@ const Login = lazy(() => import('../pages/Login'));
 const Register = lazy(() => import('../pages/Register'));
 const Dashboard = lazy(() => import('../pages/Dashboard'));
 const CreateInterview = lazy(() => import('../pages/CreateInterview'));
+const SkillQuiz = lazy(() => import('../pages/SkillQuiz'));
 const Reports = lazy(() => import('../pages/Reports'));
 const InterviewReport = lazy(() => import('../pages/InterviewReport'));
 const PageNotFound = lazy(() => import('../pages/PageNotFound'));
@@ -35,6 +36,7 @@ const AppRoutes = () => {
           <Route element={<AppLayout />}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/interview/new" element={<CreateInterview />} />
+            <Route path="/skill-quiz" element={<SkillQuiz />} />
             <Route path="/reports" element={<Reports />} />
             <Route path="/reports/:reportId" element={<InterviewReport />} />
           </Route>

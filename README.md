@@ -36,6 +36,11 @@ A full-stack web application that helps candidates prepare for job interviews. U
   - Resume PDFs are uploaded and parsed server-side
   - Extracted resume text is processed by Gemini AI
 
+- 🧪 **Skill quiz practice**
+  - Users can choose a skill and difficulty level
+  - Gemini generates 20 targeted questions with scoring and feedback
+  - Final results highlight areas to focus on before the interview
+
 ---
 
 ## 🛠️ Tech Stack
@@ -69,49 +74,48 @@ A full-stack web application that helps candidates prepare for job interviews. U
 
 ```
 Interview-Prep-AI/
-├── client/frontend                # React
+├── client/                       # React frontend
 │   ├── src/
-│   │   ├── api/                   # Axios instance + API call modules (auth, interview)
-│   │   ├── app/                   # Redux store and route definitions
+│   │   ├── api/                  # Axios setup and API call modules
+│   │   ├── app/                  # Redux store and route definitions
 │   │   ├── components/
-│   │   │   ├── auth/              # ProtectedRoute / GuestRoute guards
-│   │   │   ├── common/            # Reusable UI: Button, Input, Card, Badge, Alert, etc.
-│   │   │   ├── dashboard/         # Dashboard, ReportCard
-│   │   │   ├── interview/         # Interview-specific components (e.g. FileUploader)
-│   │   │   ├── layout/            # AppLayout, AuthLayout, Navbar, Sidebar, PageHeader
-│   │   │   └── report/            # ReportCard, QuestionCard, SkillGapCard
-│   │   ├── constants/             # Shared constants
+│   │   │   ├── auth/             # ProtectedRoute / GuestRoute guards
+│   │   │   ├── common/           # Shared UI components
+│   │   │   ├── dashboard/        # Dashboard cards and summary UI
+│   │   │   ├── interview/        # File upload and interview UI
+│   │   │   ├── layout/           # AppLayout, Navbar, Sidebar, PageHeader
+│   │   │   └── report/           # Question, score, and gap UI
+│   │   ├── constants/
 │   │   ├── features/
-│   │   │   ├── auth/              # authSlice (Redux)
-│   │   │   └── interview/         # interviewSlice (Redux)
-│   │   ├── pages/                 # Page components (e.g. Login, Register, Dashboard)
-│   │   ├── utils/                 # Error handling and formatting helpers
+│   │   │   ├── auth/
+│   │   │   └── interview/
+│   │   ├── pages/
+│   │   ├── utils/
 │   │   ├── App.jsx
-│   │   ├── index.css              # Global styles
-│   │   └── main.jsx               # Entry point
-│   ├── .env                       # Environment variables
-│   ├── public/                    # Static assets
-│   ├── index.html                 # HTML template
-│   ├── package.json               # Project config
-│   ├── vercel.json                # Vercel config
-│   └── vite.config.js             # Dev server proxies /api → http://localhost:5000
+│   │   ├── index.css
+│   │   └── main.jsx
+│   ├── index.html
+│   ├── package.json
+│   ├── vercel.json
+│   ├── vite.config.js
+│   └── public/
 │
-├── server/ backend                # Express backend
+├── server/                       # Express backend
 │   ├── src/
-│   │   ├── app.js                 # Express app setup, routes, error handlers
-│   │   ├── config/                # Environment variables and DB connection
-│   │   ├── controllers/           # auth.controller.js, interview.controller.js
-│   │   ├── middlewares/           # asyncHandler, auth, error handling, file upload
-│   │   ├── models/                # User, InterviewReport, BlacklistToken (Mongoose)
-│   │   ├── prompts/               # Gemini prompt builders for interview reports/resumes
-│   │   ├── routes/                # /api/v1/auth, /api/v1/interview
-│   │   ├── services/              # service modules (e.g. auth.service.js)
-│   │   └── utils/                 # ApiError, ApiResponse helpers
-│   ├── .env                       # Environment variables
-│   ├── server.js                  # Entry point
-│   └── package.json               # Project config
+│   │   ├── app.js
+│   │   ├── config/
+│   │   ├── controllers/
+│   │   ├── middlewares/
+│   │   ├── models/
+│   │   ├── prompts/
+│   │   ├── routes/
+│   │   ├── services/
+│   │   └── utils/
+│   ├── package.json
+│   ├── server.js
+│   └── .env
 │
-└── README.md                      # Project description
+└── README.md
 ```
 
 ---
@@ -133,8 +137,9 @@ Interview-Prep-AI/
 | ------ | ---------------------------- | ---------- | -------------------------------------------------------------------------------------- |
 | POST   | `/`                          | 🔒 Private | Generate an interview report from a resume file, self-description, and job description |
 | GET    | `/report/all`                | 🔒 Private | Get all interview reports for the current user                                         |
+| POST   | `/skill-quiz`                | 🔒 Private | Generate a skill-practice quiz for a selected skill and level                          |
 | GET    | `/report/:interviewReportId` | 🔒 Private | Get a single interview report by ID                                                    |
-| GET    | `/resume/:interviewReportId` | 🔒 Private | Generate a tailored resume PDF for a given report                                      |
+| GET    | `/resume/:interviewReportId` | 🔒 Private | Generate and download a tailored resume PDF for a report                               |
 
 🔒 Private routes require authentication via the `authUser` middleware (JWT).
 

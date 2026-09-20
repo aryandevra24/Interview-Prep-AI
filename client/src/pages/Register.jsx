@@ -39,7 +39,9 @@ const Register = () => {
     if (!form.email.trim()) {
       errors.email = 'Email is required.';
     } else if (
-      !/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(form.email.trim())
+      !/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(
+        form.email.trim()
+      )
     ) {
       errors.email = 'Enter a valid email address.';
     }
