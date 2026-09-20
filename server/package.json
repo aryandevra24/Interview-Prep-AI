@@ -9,7 +9,7 @@
     "dev": "node --watch server.js",
     "start": "node server.js",
     "format": "prettier --write .",
-    "postinstall": "npx puppeteer browsers install chrome"
+    "postinstall": "node -e \"if (process.env.NODE_ENV !== 'production') { require('child_process').execSync('npx puppeteer browsers install chrome', { stdio: 'inherit' }); }\""
   },
   "keywords": [],
   "author": "",
@@ -27,10 +27,10 @@
     "mongoose": "^9.9.1",
     "multer": "^2.2.0",
     "pdf-parse": "^2.4.5",
-    "puppeteer": "^25.6.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {
-    "prettier": "^3.9.6"
+    "prettier": "^3.9.6",
+    "puppeteer": "^25.11.0"
   }
 }

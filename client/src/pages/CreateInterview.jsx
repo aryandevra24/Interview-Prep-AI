@@ -28,19 +28,21 @@ const CreateInterview = () => {
 
   const validate = () => {
     const errors = {};
+
     if (!resume) errors.resume = 'Please upload your resume as a PDF.';
-    if (
-      !selfDescription.trim() ||
-      selfDescription.trim().length < MIN_DESCRIPTION_LENGTH
-    ) {
-      errors.selfDescription = `Self description must be at least ${MIN_DESCRIPTION_LENGTH} characters.`;
+
+    if (!selfDescription.trim()) {
+      errors.selfDescription = 'Self description is required.';
+    } else if (selfDescription.trim().length < MIN_DESCRIPTION_LENGTH) {
+      errors.selfDescription = `Self description must be at least ${MIN_DESCRIPTION_LENGTH} characters long.`;
     }
-    if (
-      !jobDescription.trim() ||
-      jobDescription.trim().length < MIN_JOB_DESCRIPTION_LENGTH
-    ) {
-      errors.jobDescription = `Job description must be at least ${MIN_JOB_DESCRIPTION_LENGTH} characters.`;
+
+    if (!jobDescription.trim()) {
+      errors.jobDescription = 'Job description is required.';
+    } else if (jobDescription.trim().length < MIN_JOB_DESCRIPTION_LENGTH) {
+      errors.jobDescription = `Job description must be at least ${MIN_JOB_DESCRIPTION_LENGTH} characters long.`;
     }
+
     setValidationErrors(errors);
     return Object.keys(errors).length === 0;
   };

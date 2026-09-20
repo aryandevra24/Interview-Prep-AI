@@ -57,7 +57,7 @@ A full-stack web application that helps candidates prepare for job interviews. U
 - JWT (`jsonwebtoken`) + `bcryptjs` for auth
 - `multer` for file upload handling
 - `pdf-parse` for extracting text from uploaded resumes
-- `puppeteer` for rendering generated resumes to PDF
+- `puppeteer` (dev) + `puppeteer-core` / `@sparticuz/chromium` (production) for rendering generated resumes to PDF — see [Puppeteer / Resume PDF generation](#-puppeteer--resume-pdf-generation) for why two setups are used
 - `zod` for schema validation
 - `express-rate-limit` for rate limiting
 - `cookie-parser` for cookie handling
@@ -222,7 +222,45 @@ In development, Vite proxies requests from `/api` to `http://localhost:5000` (se
 - `npm run dev` — start with Node's `--watch` for auto-reload
 - `npm run build` — start the server (`node server.js`)
 - `npm run format` — format with Prettier
-- `npm run postinstall` — install Puppeteer browsers # you need to run this once when you deploy to production
+- `postinstall` — runs automatically after `npm install`. Downloads a local Chrome for the dev `puppeteer` package, but **only when `NODE_ENV !== 'production'`**. In production, no browser download happens here — see below.
+
+---
+
+## 🧩 Puppeteer / Resume PDF generation
+
+Resume PDF generation (`POST /api/v1/interview/:interviewReportId/resume`) is the one feature that spawns a real headless Chrome process on the server, so it needs a bit of extra explanation.
+
+**Why two different setups (dev vs. production)?**
+
+Locally, the full `puppeteer` package (a `devDependency`) is used — it manages its own bundled Chrome download via `postinstall` and just works on Windows/macOS/Linux.
+
+In production (Render), we instead use `puppeteer-core` + `@sparticuz/chromium` — a Chromium build made for constrained Linux hosts. This sidesteps a well-known Render + Puppeteer failure mode: the full `puppeteer` package downloads Chrome to a cache path during the **build** step, but Render's **runtime** environment can resolve that cache path differently, so the browser "disappears" at request time even though the build looked successful. You'll see this as:
+
+```
+Error: Could not find Chrome (ver. ...). This can occur if either
+1) you did not perform an installation before running the script, or
+2) your cache path is incorrectly configured.
+```
+
+or
+
+```
+Error: Browser was not found at the configured executablePath (/opt/render/.cache/puppeteer/chrome)
+```
+
+`@sparticuz/chromium` ships its Chromium binary inside the npm package itself, so there's no separate download/cache step to go stale between build and runtime.
+
+The environment switch lives in `server/src/services/pdf.service.js`, keyed off `NODE_ENV`.
+
+**Setting this up:**
+
+- **Local dev:** nothing extra to do. `npm install` in `server/` triggers `postinstall`, which downloads Chrome for the `puppeteer` package automatically, as long as `NODE_ENV` isn't set to `production` in your shell. If you ever see `Could not find Chrome (ver. ...)` locally, just run:
+  ```bash
+  npx puppeteer browsers install chrome
+  ```
+- **Production (Render):** make sure `NODE_ENV=production` is set in the service's environment variables (already required by `src/config/env.js`). No extra Puppeteer setup is needed — `puppeteer-core` + `@sparticuz/chromium` are regular `dependencies`, so they install and run without any browser download step.
+- **`@sparticuz/chromium` version:** its version tracks a specific Chromium build, not the `puppeteer-core` version number. If resume PDFs fail only in production with a Chromium launch error, check that the installed `@sparticuz/chromium` version is compatible with your `puppeteer-core` version on the [project's releases page](https://github.com/Sparticuz/chromium/releases) and pin accordingly.
+- **Debugging:** `pdf.service.js` always logs the underlying error via `console.error('[PDF Generation Error]', ...)`, in every environment — check your Render logs for this line if resume generation returns a 500.
 
 ---
 

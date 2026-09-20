@@ -62,12 +62,14 @@ const interviewReportSchema = new mongoose.Schema(
     jobDescription: {
       type: String,
       required: [true, 'job description is required'],
+      minLength: [50, 'job description must be at least 30 characters long'],
     },
     matchScore: { type: Number, required: true, min: 0, max: 100 },
     resumeTxt: { type: String, required: [true, 'resume txt is required'] },
     selfDescription: {
       type: String,
       required: [true, 'self description is required'],
+      minLength: [50, 'self description must be at least 50 characters long'],
     },
     technicalQuestions: [technicalQuestionSchema],
     behavioralQuestions: [behavioralQuestionSchema],

@@ -20,27 +20,40 @@ const Register = () => {
 
   const validate = form => {
     const errors = {};
-    if (!form.name.trim() || form.name.trim().length < 3) {
+
+    if (!form.name.trim()) {
+      errors.name = 'Name is required.';
+    } else if (form.name.trim().length < 3) {
       errors.name = 'Name must be at least 3 characters.';
     }
+
     if (!form.username.trim()) {
       errors.username = 'Username is required.';
-    } else if (!/^[a-zA-Z0-9]+$/.test(form.username)) {
-      errors.username = 'Username must be alphanumeric.';
+    } else if (form.username.trim().length < 3) {
+      errors.username = 'Username must be at least 3 characters.';
+    } else if (!/^[a-zA-Z][a-zA-Z0-9]*$/.test(form.username.trim())) {
+      errors.username =
+        'Username must start with a letter and contain only letters and numbers.';
     }
+
     if (!form.email.trim()) {
       errors.email = 'Email is required.';
     } else if (
-      !/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(form.email)
+      !/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(form.email.trim())
     ) {
       errors.email = 'Enter a valid email address.';
     }
-    if (!form.password || form.password.length < 6) {
+
+    if (!form.password) {
+      errors.password = 'Password is required.';
+    } else if (form.password.length < 6) {
       errors.password = 'Password must be at least 6 characters.';
     }
+
     if (form.password !== form.confirmPassword) {
       errors.confirmPassword = 'Passwords do not match.';
     }
+
     setValidationErrors(errors);
     return Object.keys(errors).length === 0;
   };
