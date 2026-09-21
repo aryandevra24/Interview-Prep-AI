@@ -1,7 +1,7 @@
 import 'dotenv/config';
-import connectDB from './src/config/db.js';
-import app from './src/app.js';
-import env from './src/config/env.js';
+import connectDB from './config/db.js';
+import app from './app.js';
+import env from './config/env.js';
 
 // Connect to database
 await connectDB();

@@ -11,6 +11,20 @@
       rel="stylesheet"
     />
     <title>Interview Prep AI</title>
+    <script>
+      (() => {
+        const savedTheme = localStorage.getItem('interview-prep-theme');
+        const theme =
+          savedTheme === 'light' || savedTheme === 'dark'
+            ? savedTheme
+            : window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+        document.documentElement.classList.toggle('dark', theme === 'dark');
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.style.colorScheme = theme;
+      })();
+    </script>
   </head>
 
   <body>

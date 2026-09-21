@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router';
 import store from './app/store';
 import AppRoutes from './app/routes';
 import { initializeAuth } from './features/auth/authSlice';
+import { ThemeProvider } from './theme/ThemeProvider';
 
 const AuthInitializer = ({ children }) => {
   useEffect(() => {
@@ -15,13 +16,15 @@ const AuthInitializer = ({ children }) => {
 
 const App = () => {
   return (
-    <Provider store={store}>
-      <BrowserRouter>
-        <AuthInitializer>
-          <AppRoutes />
-        </AuthInitializer>
-      </BrowserRouter>
-    </Provider>
+    <ThemeProvider>
+      <Provider store={store}>
+        <BrowserRouter>
+          <AuthInitializer>
+            <AppRoutes />
+          </AuthInitializer>
+        </BrowserRouter>
+      </Provider>
+    </ThemeProvider>
   );
 };
 

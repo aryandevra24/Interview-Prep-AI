@@ -29,7 +29,7 @@ const Alert = ({ variant = 'info', title, children, className = '' }) => {
 
   return (
     <div
-      className={`flex gap-3 rounded-lg border p-4 ${config.classes} ${className}`}
+      className={`flex gap-3 rounded-lg border p-4 ${config.classes} ${variant === 'info' ? 'analysis-alert' : ''} ${className}`}
     >
       <Icon className={`mt-0.5 h-5 w-5 shrink-0 ${config.iconClass}`} />
       <div>

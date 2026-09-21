@@ -10,6 +10,7 @@ import {
   Zap,
 } from 'lucide-react';
 import Button from '../components/common/Button';
+import ThemeToggle from '../components/common/ThemeToggle';
 
 const features = [
   {
@@ -73,7 +74,7 @@ const steps = [
 
 const Landing = () => {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="landing-page min-h-screen bg-white">
       <header className="border-b border-slate-200">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
           <Link to="/" className="flex items-center gap-2">
@@ -85,6 +86,7 @@ const Landing = () => {
             </span>
           </Link>
           <div className="flex items-center gap-3">
+            <ThemeToggle />
             <Link to="/login">
               <Button variant="ghost" size="sm">
                 Log in

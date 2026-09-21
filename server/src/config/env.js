@@ -1,20 +1,24 @@
-if (!process.env.CORS_ORIGIN) {
-  throw new Error('CORS_ORIGIN is not defined');
+const requiredEnv = [
+  'NODE_ENV',
+  'CORS_ORIGIN',
+  'MONGO_URI',
+  'COOKIE_SECRET',
+  'JWT_SECRET',
+  'GEMINI_API_KEY',
+];
+
+for (const key of requiredEnv) {
+  if (!process.env[key]) {
+    throw new Error(`${key} is not defined.`);
+  }
 }
-if (!process.env.NODE_ENV) {
-  throw new Error('NODE_ENV is not defined');
-}
-if (!process.env.COOKIE_SECRET) {
-  throw new Error('COOKIE_SECRET is not defined');
-}
-if (!process.env.MONGO_URI) {
-  throw new Error('MONGO_URI is not defined');
-}
-if (!process.env.JWT_SECRET) {
-  throw new Error('JWT_SECRET is not defined');
-}
-if (!process.env.GEMINI_API_KEY) {
-  throw new Error('GEMINI_API_KEY is not defined');
+
+const optionalEnv = ['PORT', 'JWT_EXPIRES_IN'];
+
+for (const key of optionalEnv) {
+  if (!process.env[key]) {
+    console.warn(`${key} is not defined.`);
+  }
 }
 
 const env = Object.freeze({

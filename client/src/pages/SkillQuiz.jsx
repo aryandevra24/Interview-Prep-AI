@@ -112,7 +112,7 @@ const levelOptions = [
 ];
 
 const SkillQuiz = () => {
-  const [selectedSkill, setSelectedSkill] = useState('React');
+  const [selectedSkill, setSelectedSkill] = useState('');
   const [selectedLevel, setSelectedLevel] = useState('beginner');
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState({});
@@ -231,6 +231,9 @@ const SkillQuiz = () => {
                 onChange={e => setSelectedSkill(e.target.value)}
                 className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-800 outline-none focus:border-indigo-500"
               >
+                <option className="text-slate-500" value="" disabled selected>
+                  -- Select a skill --
+                </option>
                 {skillOptions.map(skill => (
                   <option key={skill} value={skill}>
                     {skill}
@@ -266,7 +269,7 @@ const SkillQuiz = () => {
               size="lg"
               onClick={handleGenerateQuiz}
               isLoading={loading}
-              disabled={loading}
+              disabled={!selectedSkill || !selectedLevel || loading}
             >
               <BrainCircuit className="h-4 w-4" />
               Start quiz

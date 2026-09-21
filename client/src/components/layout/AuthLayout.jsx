@@ -1,6 +1,11 @@
+import ThemeToggle from '../common/ThemeToggle';
+
 const AuthLayout = ({ children, title, subtitle }) => {
   return (
-    <div className="flex min-h-screen flex-col bg-slate-50 lg:flex-row">
+    <div className="relative flex min-h-screen flex-col bg-slate-50 lg:flex-row">
+      <div className="absolute top-4 right-4 z-10">
+        <ThemeToggle />
+      </div>
       <div className="hidden flex-1 flex-col justify-between bg-indigo-950 p-10 text-white lg:flex">
         <div className="mt-[15vh] space-y-10">
           <p className="text-sm font-semibold tracking-wider text-indigo-300 uppercase">
