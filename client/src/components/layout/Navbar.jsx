@@ -1,5 +1,6 @@
 import { Link, NavLink } from 'react-router';
 import {
+  BrainCircuit,
   LayoutDashboard,
   LogOut,
   Menu,
@@ -14,6 +15,7 @@ import ThemeToggle from '../common/ThemeToggle';
 const navItems = [
   { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { to: '/interview/new', label: 'New Interview', icon: PlusCircle },
+  { to: '/skill-quiz', label: 'Skill Quiz', icon: BrainCircuit },
   { to: '/reports', label: 'Reports', icon: Sparkles },
 ];
 
